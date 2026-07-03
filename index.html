@@ -13,10 +13,10 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Google Fonts: Fraunces (serif display, editorial — el curso nace de un libro) + Inter (sans) -->
+<!-- Tipografía de marca RiskMathics: Poppins (display) + Lora (body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
 <script>
 tailwind.config = {
@@ -24,20 +24,22 @@ tailwind.config = {
     extend: {
       colors: {
         rm: {
+          deep:  '#0b101d',   /* navy profundo — base del gradiente */
           ink:   '#16223a',   /* navy tinta del folleto */
           navy:  '#1a2238',
+          umber: '#2e2012',   /* umber oscuro — del café #3c2814 del folleto */
           slate: '#3a4458',
           terra: '#b65c2e',   /* terracota — acento dominante del folleto */
           terra2:'#d97a52',
-          paper: '#f7f3ec',   /* crema editorial */
+          paper: '#f7f3ec',   /* crema editorial del folleto */
           cream: '#efe8db',
           taupe: '#786950',
-          line:  '#e6ddcd'
+          mist:  '#c8cfdd'
         }
       },
       fontFamily: {
-        sans:  ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Fraunces', 'Georgia', 'serif']
+        display: ['Poppins', 'sans-serif'],
+        body:    ['Lora', 'Georgia', 'serif']
       }
     }
   }
@@ -46,155 +48,177 @@ tailwind.config = {
 
 <style>
   html{scroll-behavior:smooth}
-  body{background-color:#f7f3ec;color:#16223a;-webkit-font-smoothing:antialiased}
-  .chart-container{position:relative;width:100%;max-width:960px;margin-left:auto;margin-right:auto;height:44vh;max-height:460px;min-height:300px;background:#fffdf8;border:1px solid #e6ddcd;border-radius:.75rem;padding:1rem;box-shadow:0 10px 30px rgba(22,34,58,.07)}
+  body{background:linear-gradient(135deg,#0b101d 0%,#16223a 52%,#2e2012 100%) fixed;color:#f7f3ec;-webkit-font-smoothing:antialiased}
+  .rule{width:50px;height:2px;background:#b65c2e;margin:1.25rem auto 0}
+  .card{background:rgba(247,243,236,.035);border:1px solid rgba(247,243,236,.10);border-radius:.9rem}
+  .chart-container{position:relative;width:100%;max-width:960px;margin-left:auto;margin-right:auto;height:44vh;max-height:460px;min-height:300px;background:rgba(247,243,236,.03);border:1px solid rgba(247,243,236,.10);border-radius:.75rem;padding:1rem}
   @media (max-width:768px){.chart-container{height:38vh}}
   details.mod summary{cursor:pointer;list-style:none}
   details.mod summary::-webkit-details-marker{display:none}
   details.mod summary .chev{transition:transform .3s ease}
   details.mod[open] summary .chev{transform:rotate(45deg)}
-  details.mod[open]{box-shadow:0 18px 50px rgba(22,34,58,.10)}
+  details.mod[open]{background:rgba(247,243,236,.055)}
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
   ::-webkit-scrollbar{width:6px;height:6px}
-  ::-webkit-scrollbar-track{background:#efe8db}
+  ::-webkit-scrollbar-track{background:#0b101d}
   ::-webkit-scrollbar-thumb{background:#b65c2e;border-radius:10px}
 </style>
 </head>
-<body class="font-sans">
+<body class="font-body">
 
 <!-- ===== STICKY NAV ===== -->
-<nav class="sticky top-0 z-50 backdrop-blur-md bg-rm-paper/85 border-b border-rm-line">
+<nav class="sticky top-0 z-50 backdrop-blur-md border-b border-white/10" style="background:rgba(11,16,29,.82)">
   <div class="max-w-6xl mx-auto px-5 sm:px-8">
-    <div class="flex items-center justify-between h-16">
-      <a href="#top" class="font-serif font-bold text-rm-ink tracking-tight text-lg">RISKMATHICS <span class="text-rm-terra">·</span> <span class="hidden sm:inline">Algoritmos 2026</span><span class="sm:hidden">DOS</span></a>
-      <div class="hidden md:flex items-center gap-7 text-sm font-medium text-rm-slate">
-        <a href="#abstract" class="hover:text-rm-terra transition">El libro</a>
-        <a href="#porque" class="hover:text-rm-terra transition">Por qué ahora</a>
-        <a href="#temario" class="hover:text-rm-terra transition">Temario</a>
-        <a href="#faculty" class="hover:text-rm-terra transition">Faculty</a>
+    <div class="flex items-center justify-between h-16 gap-4">
+      <a href="#top" class="font-display font-bold text-rm-paper tracking-[.08em] text-sm sm:text-base uppercase whitespace-nowrap">RISKMATHICS <span class="text-rm-terra2">·</span> <span class="hidden lg:inline">ALGORITMOS 2026</span></a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-display font-semibold text-rm-mist">
+        <a href="#temario" class="hover:text-rm-terra2 transition whitespace-nowrap">Temario</a>
+        <a href="#faculty" class="hover:text-rm-terra2 transition whitespace-nowrap">Faculty</a>
       </div>
-      <a href="#rm-enroll" class="bg-rm-ink hover:bg-rm-slate text-white text-sm font-semibold px-5 py-2.5 rounded-full transition">Inscribirme</a>
+      <div class="flex items-center gap-4">
+        <a href="#rm-enroll" class="hidden sm:inline-flex items-center justify-center whitespace-nowrap font-display font-semibold text-sm text-rm-paper border border-white/25 rounded-full transition hover:border-rm-terra2 hover:text-rm-terra2" style="padding:10px 22px">Quiero el temario</a>
+        <a href="#rm-enroll" class="inline-flex items-center justify-center whitespace-nowrap font-display font-semibold text-sm text-white rounded-full transition hover:-translate-y-0.5" style="padding:10px 22px;background:linear-gradient(135deg,#d97a52,#b65c2e)">Inscribirme</a>
+      </div>
     </div>
   </div>
 </nav>
 
 <!-- ===== HERO ===== -->
-<header id="top" class="relative overflow-hidden text-white" style="background:linear-gradient(150deg,#3a4458 0%,#1a2238 45%,#16223a 100%)">
-  <div class="absolute inset-0 opacity-[.07]" style="background-image:radial-gradient(circle at 80% 15%,#d97a52 0,transparent 45%)"></div>
+<header id="top" class="relative overflow-hidden">
+  <div class="absolute inset-0 opacity-[.08] pointer-events-none" style="background:radial-gradient(circle at 78% 12%,#d97a52 0,transparent 46%)"></div>
   <div class="absolute left-0 right-0 bottom-0 h-px" style="background:linear-gradient(90deg,transparent,#b65c2e,transparent)"></div>
-  <div class="max-w-6xl mx-auto px-5 sm:px-8 pt-20 pb-16 sm:pt-24 sm:pb-20 relative z-10">
-    <p class="text-rm-terra2 font-bold tracking-[.22em] text-xs sm:text-sm uppercase mb-5">Curso Ejecutivo · Decision Operating System Series</p>
-    <h1 class="font-serif font-semibold text-4xl sm:text-6xl leading-[1.04] tracking-tight max-w-4xl">Auditoría y Gobernanza<br class="hidden sm:block"> de Algoritmos</h1>
-    <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl font-light leading-relaxed">«Una decisión algorítmica que no puede ser auditada no es una decisión: <span class="text-white font-medium">es un riesgo en curso</span>.» Del modelo que predice, a la decisión que responde.</p>
-    <div class="mt-7 flex flex-wrap items-center gap-3 text-sm">
-      <span class="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5"><span class="w-1.5 h-1.5 rounded-full bg-rm-terra2"></span>Virtual LIVE</span>
-      <span class="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5">Próxima Generación 2026</span>
-      <span class="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5">Módulo VIII · Diplomado AI &amp; Quantum Computing in Finance</span>
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 pt-24 pb-24 sm:pt-32 sm:pb-28 relative z-10 text-center">
+    <p class="font-display text-rm-terra2 font-bold tracking-[.28em] text-[11px] sm:text-xs uppercase">Curso Ejecutivo · Decision Operating System Series</p>
+    <h1 class="font-display font-extrabold uppercase text-3xl sm:text-5xl md:text-6xl leading-[1.08] tracking-[.05em] mt-8 text-rm-paper">Auditoría y Gobernanza<br class="hidden sm:block"> de Algoritmos</h1>
+    <div class="rule"></div>
+    <p class="font-body italic mt-8 text-lg sm:text-2xl text-rm-mist max-w-3xl mx-auto leading-relaxed">«Una decisión algorítmica que no puede ser auditada no es una decisión: <span class="text-rm-paper">es un riesgo en curso</span>.»</p>
+    <p class="font-body italic mt-3 text-base sm:text-lg text-rm-mist/70">Del modelo que predice, a la decisión que responde.</p>
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm font-display font-semibold">
+      <span class="inline-flex items-center gap-2 border border-white/15 rounded-full px-4 py-1.5 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-rm-terra2"></span>Virtual LIVE</span>
+      <span class="inline-flex items-center gap-2 border border-white/15 rounded-full px-4 py-1.5 whitespace-nowrap">Próxima Generación 2026</span>
+      <span class="inline-flex items-center gap-2 border border-white/15 rounded-full px-4 py-1.5">Módulo VIII · Diplomado AI &amp; Quantum Computing in Finance</span>
     </div>
-    <div class="mt-9 flex flex-wrap gap-4">
-      <a href="#rm-enroll" class="inline-flex items-center justify-center font-semibold text-base px-8 py-4 rounded-full text-white transition hover:-translate-y-0.5" style="background:linear-gradient(135deg,#d97a52,#b65c2e);box-shadow:0 10px 32px rgba(182,92,46,.4)">Quiero el temario</a>
-      <a href="#rm-enroll" class="inline-flex items-center justify-center font-semibold text-base px-8 py-4 rounded-full bg-white/10 border border-white/25 text-white hover:bg-white/15 transition">Inscribirme ahora</a>
+    <div class="mt-12 flex flex-wrap justify-center gap-4">
+      <a href="#rm-enroll" class="inline-flex items-center justify-center whitespace-nowrap font-display font-bold text-base px-9 py-4 rounded-full text-white transition hover:-translate-y-0.5" style="background:linear-gradient(135deg,#d97a52,#b65c2e);box-shadow:0 10px 32px rgba(182,92,46,.4)">Quiero el temario</a>
+      <a href="#rm-enroll" class="inline-flex items-center justify-center whitespace-nowrap font-display font-semibold text-base px-9 py-4 rounded-full border border-white/25 text-rm-paper hover:bg-white/10 transition">Inscribirme ahora</a>
     </div>
-    <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-white/15 pt-8">
-      <div><p class="text-3xl sm:text-4xl font-serif font-bold text-rm-terra2">5</p><p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Sesiones ejecutivas</p></div>
-      <div><p class="text-3xl sm:text-4xl font-serif font-bold text-rm-terra2">5</p><p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Capstones grupales</p></div>
-      <div><p class="text-3xl sm:text-4xl font-serif font-bold text-rm-terra2">3</p><p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Marcos regulatorios clave</p></div>
-      <div><p class="text-3xl sm:text-4xl font-serif font-bold text-rm-terra2">1</p><p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Audit pack institucional</p></div>
+    <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-white/10 pt-10 max-w-4xl mx-auto">
+      <div><p class="text-3xl sm:text-4xl font-display font-extrabold text-rm-terra2">5</p><p class="font-display text-[11px] text-rm-mist/70 uppercase tracking-[.15em] mt-2">Sesiones ejecutivas</p></div>
+      <div><p class="text-3xl sm:text-4xl font-display font-extrabold text-rm-terra2">5</p><p class="font-display text-[11px] text-rm-mist/70 uppercase tracking-[.15em] mt-2">Capstones grupales</p></div>
+      <div><p class="text-3xl sm:text-4xl font-display font-extrabold text-rm-terra2">3</p><p class="font-display text-[11px] text-rm-mist/70 uppercase tracking-[.15em] mt-2">Marcos regulatorios</p></div>
+      <div><p class="text-3xl sm:text-4xl font-display font-extrabold text-rm-terra2">1</p><p class="font-display text-[11px] text-rm-mist/70 uppercase tracking-[.15em] mt-2">Audit pack institucional</p></div>
     </div>
   </div>
 </header>
 
-<main class="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
+<main class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
 
   <!-- ===== EXECUTIVE SUMMARY / ABSTRACT ===== -->
-  <section id="abstract" class="mb-20 sm:mb-24 reveal">
-    <h2 class="text-xs font-bold text-rm-terra uppercase tracking-[.2em] mb-2">El libro · Abstract</h2>
-    <h3 class="text-3xl sm:text-4xl font-serif font-semibold text-rm-ink mb-8 border-l-4 border-rm-terra pl-4 leading-tight">Todo algoritmo financiero es una decisión en curso.</h3>
-    <div class="bg-[#fffdf8] p-7 sm:p-10 rounded-xl border border-rm-line text-rm-slate space-y-5 leading-relaxed shadow-sm">
-      <p>Curso basado en el libro <em class="text-rm-ink font-medium">«Auditoría y Gobernanza de Algoritmos — Un manual operativo para decisiones financieras auditables bajo el marco del Decision Operating System»</em> de Jorge Pérez Colín (Decision Operating System Series, edición 2026). Su tesis central es directa: todo algoritmo financiero — desde un score de crédito hasta un modelo de pricing o un sistema de detección de fraude — debe entenderse como un componente del <strong class="text-rm-ink">Decision Operating System (DOS)</strong>: capaz de decidir, registrar evidencia, aprender, ser auditado y ser gobernado.</p>
-      <p>El punto de partida es un cambio de época. Los modelos financieros dejaron de ser herramientas técnicas para convertirse en <strong class="text-rm-ink">activos críticos de decisión</strong>: aprueban, rechazan, priorizan, alertan, bloquean, cotizan y asignan capital. El caso Apple Card (2019–2021) mostró que una institución puede enfrentar escrutinio público, regulatorio y reputacional aunque no se pruebe una violación legal — simplemente porque no logra explicar con claridad cómo una decisión algorítmica afecta el acceso al crédito.</p>
-      <p>A lo largo de siete capítulos, el manual recorre el ciclo completo de una decisión auditable: el algoritmo como activo crítico, el marco regulatorio (<strong class="text-rm-ink">EU AI Act, NIST AI Risk Management Framework, SR 11-7</strong>), el data governance auditable (BCBS 239, linaje, calidad y trazabilidad del dato), la auditoría técnica de modelos (reproducibilidad, backtesting, drift, despliegue controlado), explainability y fairness (LIME, SHAP, calidad de la decisión), el audit pack como evidencia viva del hallazgo a la remediación, y la frontera emergente: QML, modelos híbridos y riesgo post-cuántico (estándares NIST de criptografía post-cuántica ML-KEM, ML-DSA, SLH-DSA y HQC).</p>
-      <p class="bg-rm-cream/70 border-l-4 border-rm-terra p-4 rounded-r-lg text-sm italic">Cada capítulo cierra con un producto operativo — mapas de riesgo, checklists, fichas de linaje, model cards — que convierte la lectura en herramienta de trabajo para consejos, comités de riesgo y auditoría, oficinas de modelo y direcciones de tecnología.</p>
+  <section id="abstract" class="mb-28 sm:mb-36 reveal">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-xs font-bold text-rm-terra2 uppercase tracking-[.25em]">El libro · Abstract</h2>
+      <h3 class="font-display font-bold uppercase tracking-[.05em] text-2xl sm:text-4xl text-rm-paper mt-4 leading-tight">Todo algoritmo financiero<br class="hidden sm:block"> es una decisión en curso.</h3>
+      <div class="rule"></div>
+    </div>
+    <div class="card p-7 sm:p-12 text-rm-mist space-y-6 leading-relaxed max-w-4xl mx-auto">
+      <p>Curso basado en el libro <em class="text-rm-paper">«Auditoría y Gobernanza de Algoritmos — Un manual operativo para decisiones financieras auditables bajo el marco del Decision Operating System»</em> de Jorge Pérez Colín (Decision Operating System Series, edición 2026). Su tesis central es directa: todo algoritmo financiero — desde un score de crédito hasta un modelo de pricing o un sistema de detección de fraude — debe entenderse como un componente del <strong class="text-rm-paper font-medium">Decision Operating System (DOS)</strong>: capaz de decidir, registrar evidencia, aprender, ser auditado y ser gobernado.</p>
+      <p>El punto de partida es un cambio de época. Los modelos financieros dejaron de ser herramientas técnicas para convertirse en <strong class="text-rm-paper font-medium">activos críticos de decisión</strong>: aprueban, rechazan, priorizan, alertan, bloquean, cotizan y asignan capital. El caso Apple Card (2019–2021) mostró que una institución puede enfrentar escrutinio público, regulatorio y reputacional aunque no se pruebe una violación legal — simplemente porque no logra explicar con claridad cómo una decisión algorítmica afecta el acceso al crédito.</p>
+      <p>A lo largo de siete capítulos, el manual recorre el ciclo completo de una decisión auditable: el algoritmo como activo crítico, el marco regulatorio (<strong class="text-rm-paper font-medium">EU AI Act, NIST AI Risk Management Framework, SR 11-7</strong>), el data governance auditable (BCBS 239, linaje, calidad y trazabilidad del dato), la auditoría técnica de modelos (reproducibilidad, backtesting, drift, despliegue controlado), explainability y fairness (LIME, SHAP, calidad de la decisión), el audit pack como evidencia viva del hallazgo a la remediación, y la frontera emergente: QML, modelos híbridos y riesgo post-cuántico (estándares NIST de criptografía post-cuántica ML-KEM, ML-DSA, SLH-DSA y HQC).</p>
+      <p class="border-l-2 border-rm-terra pl-5 italic text-sm sm:text-base">Cada capítulo cierra con un producto operativo — mapas de riesgo, checklists, fichas de linaje, model cards — que convierte la lectura en herramienta de trabajo para consejos, comités de riesgo y auditoría, oficinas de modelo y direcciones de tecnología.</p>
     </div>
   </section>
 
   <!-- ===== OBJETIVO ===== -->
-  <section id="objetivo" class="mb-20 sm:mb-24 reveal">
-    <div class="bg-rm-ink text-white rounded-2xl p-8 sm:p-12 shadow-2xl relative overflow-hidden border border-rm-terra/25">
-      <div class="absolute top-0 right-0 -mt-6 -mr-2 text-rm-terra opacity-10 text-[10rem] font-serif leading-none select-none">"</div>
-      <h2 class="text-xs font-bold text-rm-terra2 uppercase tracking-[.2em] mb-5">Objetivo general de aprendizaje</h2>
-      <p class="text-2xl sm:text-3xl font-serif leading-snug mb-6">Al finalizar el curso, el participante será capaz de <span class="text-rm-terra2">gobernar decisiones algorítmicas financieras de extremo a extremo</span>.</p>
-      <p class="text-slate-300 font-light text-base sm:text-lg leading-relaxed">Evaluar el algoritmo como activo crítico de decisión, mapear sus obligaciones regulatorias, auditar el dato que lo alimenta, verificar la reproducibilidad técnica del modelo, exigir explicabilidad y fairness con criterio ejecutivo, y construir el audit pack que convierte hallazgos en remediaciones — incluyendo la agenda de preparación post-cuántica de su institución.</p>
-      <div class="mt-8 grid sm:grid-cols-3 gap-4 text-sm">
-        <div class="bg-white/5 border border-white/10 rounded-xl p-5"><p class="font-semibold text-rm-terra2 mb-1.5">Responder</p><p class="text-slate-300 font-light">Ante reguladores, comités y consejos por decisiones que hoy toman algoritmos.</p></div>
-        <div class="bg-white/5 border border-white/10 rounded-xl p-5"><p class="font-semibold text-rm-terra2 mb-1.5">Defender</p><p class="text-slate-300 font-light">Convertir modelos prometedores en modelos defendibles — reproducibles, monitoreados, gobernados.</p></div>
-        <div class="bg-white/5 border border-white/10 rounded-xl p-5"><p class="font-semibold text-rm-terra2 mb-1.5">Evidenciar</p><p class="text-slate-300 font-light">Llegar a la conversación de AI &amp; Quantum con la única base que el regulador acepta: evidencia.</p></div>
+  <section id="objetivo" class="mb-28 sm:mb-36 reveal">
+    <div class="rounded-2xl p-8 sm:p-14 relative overflow-hidden border border-rm-terra/30" style="background:linear-gradient(135deg,rgba(182,92,46,.14),rgba(22,34,58,.5) 60%,rgba(11,16,29,.6))">
+      <div class="text-center">
+        <h2 class="font-display text-xs font-bold text-rm-terra2 uppercase tracking-[.25em]">Objetivo general de aprendizaje</h2>
+        <p class="font-display font-bold uppercase tracking-[.04em] text-xl sm:text-3xl leading-snug mt-5 text-rm-paper max-w-3xl mx-auto">Gobernar decisiones algorítmicas financieras <span class="text-rm-terra2">de extremo a extremo</span>.</p>
+        <div class="rule"></div>
+        <p class="text-rm-mist mt-7 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">Evaluar el algoritmo como activo crítico de decisión, mapear sus obligaciones regulatorias, auditar el dato que lo alimenta, verificar la reproducibilidad técnica del modelo, exigir explicabilidad y fairness con criterio ejecutivo, y construir el audit pack que convierte hallazgos en remediaciones — incluyendo la agenda de preparación post-cuántica de su institución.</p>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-3 gap-4 text-sm">
+        <div class="card p-6"><p class="font-display font-bold text-rm-terra2 uppercase tracking-[.1em] text-xs mb-2">Responder</p><p class="text-rm-mist">Ante reguladores, comités y consejos por decisiones que hoy toman algoritmos.</p></div>
+        <div class="card p-6"><p class="font-display font-bold text-rm-terra2 uppercase tracking-[.1em] text-xs mb-2">Defender</p><p class="text-rm-mist">Convertir modelos prometedores en modelos defendibles — reproducibles, monitoreados, gobernados.</p></div>
+        <div class="card p-6"><p class="font-display font-bold text-rm-terra2 uppercase tracking-[.1em] text-xs mb-2">Evidenciar</p><p class="text-rm-mist">Llegar a la conversación de AI &amp; Quantum con la única base que el regulador acepta: evidencia.</p></div>
       </div>
     </div>
   </section>
 
   <!-- ===== POR QUÉ AHORA + CHART ===== -->
-  <section id="porque" class="mb-20 sm:mb-24 reveal">
-    <h2 class="text-xs font-bold text-rm-terra uppercase tracking-[.2em] mb-2">Por qué ahora</h2>
-    <h3 class="text-3xl sm:text-4xl font-serif font-semibold text-rm-ink mb-6 border-l-4 border-rm-terra pl-4 leading-tight">La regulación ya no pregunta por el modelo. Pregunta por ti.</h3>
-    <p class="text-rm-slate mb-8 max-w-3xl leading-relaxed">La pregunta regulatoria cambió. Ya no es «¿el modelo predice bien?», sino: <strong class="text-rm-ink">«¿el sistema completo que usa AI está gobernado, documentado, supervisado, probado, monitoreado y sujeto a rendición de cuentas?»</strong>. El EU AI Act clasificó como de alto riesgo los sistemas de scoring crediticio; NIST exige gobernar, mapear, medir y gestionar; SR 11-7 sigue siendo la referencia de Model Risk Management. La convergencia es clara — y alcanza a consejos, comités y direcciones, no solo a los científicos de datos.</p>
+  <section id="porque" class="mb-28 sm:mb-36 reveal">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-xs font-bold text-rm-terra2 uppercase tracking-[.25em]">Por qué ahora</h2>
+      <h3 class="font-display font-bold uppercase tracking-[.05em] text-2xl sm:text-4xl text-rm-paper mt-4 leading-tight">La regulación ya no pregunta por el modelo.<br class="hidden sm:block"> Pregunta por ti.</h3>
+      <div class="rule"></div>
+      <p class="text-rm-mist mt-7 max-w-3xl mx-auto leading-relaxed">La pregunta regulatoria cambió. Ya no es «¿el modelo predice bien?», sino: <strong class="text-rm-paper font-medium">«¿el sistema completo que usa AI está gobernado, documentado, supervisado, probado, monitoreado y sujeto a rendición de cuentas?»</strong>. La convergencia es clara — y alcanza a consejos, comités y direcciones, no solo a los científicos de datos.</p>
+    </div>
     <div class="chart-container">
       <canvas id="rmContextChart"></canvas>
     </div>
-    <p class="text-xs text-rm-taupe text-center mt-3">Adopción de decisiones algorítmicas en instituciones financieras vs. presión regulatoria acumulada sobre sistemas de AI. Estimación ilustrativa elaborada con base en tendencias públicas (OECD.AI, BIS, NIST, EU AI Act).</p>
-    <div class="mt-8 grid sm:grid-cols-3 gap-4">
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-6"><p class="font-serif text-2xl font-bold text-rm-terra">EU AI Act</p><p class="text-sm text-rm-slate mt-2">2024 · Regulación por riesgo, uso, impacto y contexto. El scoring crediticio: sistema de alto riesgo con obligaciones directas de gobernanza.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-6"><p class="font-serif text-2xl font-bold text-rm-terra">NIST AI RMF</p><p class="text-sm text-rm-slate mt-2">Gobernar, mapear, medir y gestionar — más allá del desempeño técnico. El lenguaje común entre supervisores, auditores y comités.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-6"><p class="font-serif text-2xl font-bold text-rm-terra">SR 11-7</p><p class="text-sm text-rm-slate mt-2">La referencia de Model Risk Management: desarrollo, validación, documentación, gobierno y control del riesgo de modelos.</p></div>
+    <p class="text-xs text-rm-mist/50 text-center mt-4">Adopción de decisiones algorítmicas en instituciones financieras vs. presión regulatoria acumulada sobre sistemas de AI. Estimación ilustrativa elaborada con base en tendencias públicas (OECD.AI, BIS, NIST, EU AI Act).</p>
+    <div class="mt-10 grid sm:grid-cols-3 gap-4">
+      <div class="card p-7"><p class="font-display text-xl font-bold text-rm-terra2 tracking-[.03em]">EU AI Act</p><p class="text-sm text-rm-mist mt-3 leading-relaxed">2024 · Regulación por riesgo, uso, impacto y contexto. El scoring crediticio: sistema de alto riesgo con obligaciones directas de gobernanza.</p></div>
+      <div class="card p-7"><p class="font-display text-xl font-bold text-rm-terra2 tracking-[.03em]">NIST AI RMF</p><p class="text-sm text-rm-mist mt-3 leading-relaxed">Gobernar, mapear, medir y gestionar — más allá del desempeño técnico. El lenguaje común entre supervisores, auditores y comités.</p></div>
+      <div class="card p-7"><p class="font-display text-xl font-bold text-rm-terra2 tracking-[.03em]">SR 11-7</p><p class="text-sm text-rm-mist mt-3 leading-relaxed">La referencia de Model Risk Management: desarrollo, validación, documentación, gobierno y control del riesgo de modelos.</p></div>
     </div>
   </section>
 
   <!-- ===== 10 RAZONES ===== -->
-  <section id="razones" class="mb-20 sm:mb-24 reveal">
-    <h2 class="text-xs font-bold text-rm-terra uppercase tracking-[.2em] mb-2">Why you should attend</h2>
-    <h3 class="text-3xl sm:text-4xl font-serif font-semibold text-rm-ink mb-8 border-l-4 border-rm-terra pl-4 leading-tight">Diez razones para estar en este curso.</h3>
+  <section id="razones" class="mb-28 sm:mb-36 reveal">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-xs font-bold text-rm-terra2 uppercase tracking-[.25em]">Why you should attend</h2>
+      <h3 class="font-display font-bold uppercase tracking-[.05em] text-2xl sm:text-4xl text-rm-paper mt-4 leading-tight">Diez razones para estar en este curso.</h3>
+      <div class="rule"></div>
+    </div>
     <div class="grid sm:grid-cols-2 gap-4">
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">01</span><p class="text-sm text-rm-slate leading-relaxed">Porque los algoritmos ya aprueban, rechazan y asignan capital — <strong class="text-rm-ink">y alguien tiene que responder por ellos</strong>.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">02</span><p class="text-sm text-rm-slate leading-relaxed">Porque el <strong class="text-rm-ink">EU AI Act</strong> clasificó el scoring crediticio como sistema de alto riesgo, con obligaciones directas de gobernanza.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">03</span><p class="text-sm text-rm-slate leading-relaxed">Porque <strong class="text-rm-ink">NIST AI RMF y SR 11-7</strong> son hoy el lenguaje común entre supervisores, auditores y comités.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">04</span><p class="text-sm text-rm-slate leading-relaxed">Porque el <strong class="text-rm-ink">caso Apple Card</strong> demostró que el costo reputacional llega aunque no haya violación legal.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">05</span><p class="text-sm text-rm-slate leading-relaxed">Porque toda decisión algorítmica empieza en el dato — y <strong class="text-rm-ink">BCBS 239</strong> exige linaje, calidad y agregación confiable.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">06</span><p class="text-sm text-rm-slate leading-relaxed">Porque un modelo que no puede reproducirse — datos, ambiente, semillas, parámetros — no es un modelo: <strong class="text-rm-ink">es un artefacto frágil</strong>.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">07</span><p class="text-sm text-rm-slate leading-relaxed">Porque explainability (<strong class="text-rm-ink">LIME, SHAP</strong>) y fairness no son lujo técnico: son calidad de la decisión ante clientes y supervisores.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">08</span><p class="text-sm text-rm-slate leading-relaxed">Porque el <strong class="text-rm-ink">audit pack</strong> convierte hallazgos en remediaciones — la evidencia viva que piden comités y reguladores.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">09</span><p class="text-sm text-rm-slate leading-relaxed">Porque el riesgo post-cuántico ya tiene estándares (<strong class="text-rm-ink">ML-KEM, ML-DSA, SLH-DSA, HQC</strong>) y la migración es un programa real de reducción de riesgo.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-5 flex gap-4 hover:-translate-y-0.5 hover:shadow-lg transition"><span class="flex-none w-9 h-9 rounded-lg bg-rm-cream text-rm-terra font-bold text-sm flex items-center justify-center">10</span><p class="text-sm text-rm-slate leading-relaxed">Porque sales con <strong class="text-rm-ink">productos operativos</strong>: mapas de riesgo, checklists, fichas de linaje, model cards y agenda post-cuántica.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">01</span><p class="text-sm text-rm-mist leading-relaxed">Porque los algoritmos ya aprueban, rechazan y asignan capital — <strong class="text-rm-paper font-medium">y alguien tiene que responder por ellos</strong>.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">02</span><p class="text-sm text-rm-mist leading-relaxed">Porque el <strong class="text-rm-paper font-medium">EU AI Act</strong> clasificó el scoring crediticio como sistema de alto riesgo, con obligaciones directas de gobernanza.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">03</span><p class="text-sm text-rm-mist leading-relaxed">Porque <strong class="text-rm-paper font-medium">NIST AI RMF y SR 11-7</strong> son hoy el lenguaje común entre supervisores, auditores y comités.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">04</span><p class="text-sm text-rm-mist leading-relaxed">Porque el <strong class="text-rm-paper font-medium">caso Apple Card</strong> demostró que el costo reputacional llega aunque no haya violación legal.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">05</span><p class="text-sm text-rm-mist leading-relaxed">Porque toda decisión algorítmica empieza en el dato — y <strong class="text-rm-paper font-medium">BCBS 239</strong> exige linaje, calidad y agregación confiable.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">06</span><p class="text-sm text-rm-mist leading-relaxed">Porque un modelo que no puede reproducirse — datos, ambiente, semillas, parámetros — no es un modelo: <strong class="text-rm-paper font-medium">es un artefacto frágil</strong>.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">07</span><p class="text-sm text-rm-mist leading-relaxed">Porque explainability (<strong class="text-rm-paper font-medium">LIME, SHAP</strong>) y fairness no son lujo técnico: son calidad de la decisión ante clientes y supervisores.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">08</span><p class="text-sm text-rm-mist leading-relaxed">Porque el <strong class="text-rm-paper font-medium">audit pack</strong> convierte hallazgos en remediaciones — la evidencia viva que piden comités y reguladores.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">09</span><p class="text-sm text-rm-mist leading-relaxed">Porque el riesgo post-cuántico ya tiene estándares (<strong class="text-rm-paper font-medium">ML-KEM, ML-DSA, SLH-DSA, HQC</strong>) y la migración es un programa real de reducción de riesgo.</p></div>
+      <div class="card p-6 flex gap-4 hover:-translate-y-0.5 transition"><span class="flex-none w-9 h-9 rounded-lg border border-rm-terra/40 text-rm-terra2 font-display font-bold text-sm flex items-center justify-center">10</span><p class="text-sm text-rm-mist leading-relaxed">Porque sales con <strong class="text-rm-paper font-medium">productos operativos</strong>: mapas de riesgo, checklists, fichas de linaje, model cards y agenda post-cuántica.</p></div>
     </div>
   </section>
 
   <!-- ===== A QUIÉN VA DIRIGIDO ===== -->
-  <section id="dirigido" class="mb-20 sm:mb-24 reveal">
-    <h2 class="text-xs font-bold text-rm-terra uppercase tracking-[.2em] mb-2">Target audience</h2>
-    <h3 class="text-3xl sm:text-4xl font-serif font-semibold text-rm-ink mb-8 border-l-4 border-rm-terra pl-4 leading-tight">Diseñado para quienes responden por la decisión.</h3>
+  <section id="dirigido" class="mb-28 sm:mb-36 reveal">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-xs font-bold text-rm-terra2 uppercase tracking-[.25em]">Target audience</h2>
+      <h3 class="font-display font-bold uppercase tracking-[.05em] text-2xl sm:text-4xl text-rm-paper mt-4 leading-tight">Diseñado para quienes responden<br class="hidden sm:block"> por la decisión.</h3>
+      <div class="rule"></div>
+    </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-6 hover:shadow-lg transition"><p class="font-serif text-lg font-bold text-rm-ink mb-2">Consejos de administración</p><p class="text-sm text-rm-slate leading-relaxed">Responsabilidad final por decisiones algorítmicas: del apetito de riesgo a la rendición de cuentas ante el regulador.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-6 hover:shadow-lg transition"><p class="font-serif text-lg font-bold text-rm-ink mb-2">Comités de riesgo y auditoría</p><p class="text-sm text-rm-slate leading-relaxed">Matrices regulatorias, dictámenes de auditoría técnica y seguimiento del hallazgo a la remediación.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-6 hover:shadow-lg transition"><p class="font-serif text-lg font-bold text-rm-ink mb-2">Oficinas de modelo (MRM)</p><p class="text-sm text-rm-slate leading-relaxed">Model risk management bajo SR 11-7: validación, documentación, model registry, monitoreo de drift.</p></div>
-      <div class="bg-[#fffdf8] border border-rm-line rounded-xl p-6 hover:shadow-lg transition"><p class="font-serif text-lg font-bold text-rm-ink mb-2">Direcciones de tecnología y datos</p><p class="text-sm text-rm-slate leading-relaxed">Data governance auditable, despliegue controlado, CI/CD, y la agenda post-cuántica institucional.</p></div>
+      <div class="card p-7 hover:-translate-y-0.5 transition"><p class="font-display text-base font-bold text-rm-paper mb-3 leading-snug">Consejos de administración</p><p class="text-sm text-rm-mist leading-relaxed">Responsabilidad final por decisiones algorítmicas: del apetito de riesgo a la rendición de cuentas ante el regulador.</p></div>
+      <div class="card p-7 hover:-translate-y-0.5 transition"><p class="font-display text-base font-bold text-rm-paper mb-3 leading-snug">Comités de riesgo y auditoría</p><p class="text-sm text-rm-mist leading-relaxed">Matrices regulatorias, dictámenes de auditoría técnica y seguimiento del hallazgo a la remediación.</p></div>
+      <div class="card p-7 hover:-translate-y-0.5 transition"><p class="font-display text-base font-bold text-rm-paper mb-3 leading-snug">Oficinas de modelo (MRM)</p><p class="text-sm text-rm-mist leading-relaxed">Model risk management bajo SR 11-7: validación, documentación, model registry, monitoreo de drift.</p></div>
+      <div class="card p-7 hover:-translate-y-0.5 transition"><p class="font-display text-base font-bold text-rm-paper mb-3 leading-snug">Direcciones de tecnología y datos</p><p class="text-sm text-rm-mist leading-relaxed">Data governance auditable, despliegue controlado, CI/CD, y la agenda post-cuántica institucional.</p></div>
     </div>
   </section>
 
   <!-- ===== TEMARIO / CURRICULUM ACCORDION ===== -->
-  <section id="temario" class="mb-20 sm:mb-24 reveal">
-    <h2 class="text-xs font-bold text-rm-terra uppercase tracking-[.2em] mb-2">Curriculum</h2>
-    <h3 class="text-3xl sm:text-4xl font-serif font-semibold text-rm-ink mb-3 border-l-4 border-rm-terra pl-4 leading-tight">Cinco sesiones. Cinco capstones. Evidencia, no opinión.</h3>
-    <p class="text-rm-slate mb-8 max-w-3xl leading-relaxed">Al cierre de cada sesión, los participantes trabajan en grupos de 15 a 30 minutos sobre plantillas operativas tomadas directamente del libro (Apéndices B, C y D). Cada dinámica produce un entregable real y termina en discusión ejecutiva. <strong class="text-rm-ink">El participante no se lleva apuntes: se lleva el expediente de una decisión auditable.</strong></p>
+  <section id="temario" class="mb-28 sm:mb-36 reveal">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-xs font-bold text-rm-terra2 uppercase tracking-[.25em]">Curriculum</h2>
+      <h3 class="font-display font-bold uppercase tracking-[.05em] text-2xl sm:text-4xl text-rm-paper mt-4 leading-tight">Cinco sesiones. Cinco capstones.<br class="hidden sm:block"> Evidencia, no opinión.</h3>
+      <div class="rule"></div>
+      <p class="text-rm-mist mt-7 max-w-3xl mx-auto leading-relaxed">Al cierre de cada sesión, los participantes trabajan en grupos de 15 a 30 minutos sobre plantillas operativas tomadas directamente del libro (Apéndices B, C y D). Cada dinámica produce un entregable real y termina en discusión ejecutiva. <strong class="text-rm-paper font-medium">El participante no se lleva apuntes: se lleva el expediente de una decisión auditable.</strong></p>
+    </div>
     <div class="space-y-4">
 
-      <details class="mod bg-[#fffdf8] border border-rm-line rounded-xl overflow-hidden transition" open>
+      <details class="mod card overflow-hidden transition" open>
         <summary class="flex items-center gap-4 p-5 sm:p-6">
-          <span class="flex-none w-11 h-11 rounded-xl bg-rm-ink text-rm-terra2 font-serif font-bold flex items-center justify-center">01</span>
-          <span class="flex-1"><span class="block font-serif text-lg sm:text-xl font-semibold text-rm-ink leading-snug">El algoritmo como activo crítico de decisión</span><span class="block text-sm text-rm-taupe mt-0.5">Del modelo predictivo a la decisión empresarial: la arquitectura mínima de una decisión auditable.</span></span>
-          <span class="chev flex-none text-rm-terra text-2xl font-light leading-none">+</span>
+          <span class="flex-none w-11 h-11 rounded-xl bg-rm-terra/15 border border-rm-terra/40 text-rm-terra2 font-display font-bold flex items-center justify-center">01</span>
+          <span class="flex-1"><span class="block font-display text-base sm:text-lg font-bold text-rm-paper leading-snug">El algoritmo como activo crítico de decisión</span><span class="block font-body italic text-sm text-rm-mist/70 mt-1">Del modelo predictivo a la decisión empresarial: la arquitectura mínima de una decisión auditable.</span></span>
+          <span class="chev flex-none text-rm-terra2 text-2xl font-light leading-none">+</span>
         </summary>
         <div class="px-5 sm:px-6 pb-6 sm:pl-[84px]">
-          <ul class="text-sm text-rm-slate space-y-2 list-disc pl-4 leading-relaxed">
+          <ul class="text-sm text-rm-mist space-y-2 list-disc pl-4 leading-relaxed">
             <li>La transformación algorítmica de las finanzas: scorecards, pérdida esperada, fraude, pricing, VaR y trading.</li>
             <li>El caso Apple Card: escrutinio regulatorio y reputacional sin violación legal probada.</li>
             <li>Por qué la auditoría algorítmica no puede limitarse al modelo.</li>
@@ -202,57 +226,57 @@ tailwind.config = {
             <li>El Decision Operating System (DOS) como marco para operar decisiones financieras auditables.</li>
             <li>Caso aplicado: originación de crédito digital.</li>
           </ul>
-          <div class="mt-4 bg-rm-cream/70 border-l-4 border-rm-terra rounded-r-lg p-4 text-sm text-rm-slate"><strong class="text-rm-terra uppercase text-xs tracking-widest">Capstone · 20–30 min · en grupos</strong><br>Construir el mapa de riesgos de una decisión algorítmica de su propia institución: identificar la decisión, el algoritmo que la toma, quién responde por ella y dónde está la evidencia. Discusión ejecutiva entre grupos.</div>
-          <p class="mt-3 text-xs text-rm-taupe font-medium tracking-wide">DOS · Scoring · Pricing · VaR · Decisión auditable</p>
+          <div class="mt-5 border-l-2 border-rm-terra pl-5 py-1 text-sm text-rm-mist"><strong class="font-display text-rm-terra2 uppercase text-xs tracking-[.15em]">Capstone · 20–30 min · en grupos</strong><br>Construir el mapa de riesgos de una decisión algorítmica de su propia institución: identificar la decisión, el algoritmo que la toma, quién responde por ella y dónde está la evidencia. Discusión ejecutiva entre grupos.</div>
+          <p class="mt-4 font-display text-[11px] text-rm-mist/50 font-semibold tracking-[.12em] uppercase">DOS · Scoring · Pricing · VaR · Decisión auditable</p>
         </div>
       </details>
 
-      <details class="mod bg-[#fffdf8] border border-rm-line rounded-xl overflow-hidden transition">
+      <details class="mod card overflow-hidden transition">
         <summary class="flex items-center gap-4 p-5 sm:p-6">
-          <span class="flex-none w-11 h-11 rounded-xl bg-rm-ink text-rm-terra2 font-serif font-bold flex items-center justify-center">02</span>
-          <span class="flex-1"><span class="block font-serif text-lg sm:text-xl font-semibold text-rm-ink leading-snug">Marco regulatorio y principios de gobernanza</span><span class="block text-sm text-rm-taupe mt-0.5">La regulación ya no pregunta solo por el modelo: pregunta por el sistema completo de decisión.</span></span>
-          <span class="chev flex-none text-rm-terra text-2xl font-light leading-none">+</span>
+          <span class="flex-none w-11 h-11 rounded-xl bg-rm-terra/15 border border-rm-terra/40 text-rm-terra2 font-display font-bold flex items-center justify-center">02</span>
+          <span class="flex-1"><span class="block font-display text-base sm:text-lg font-bold text-rm-paper leading-snug">Marco regulatorio y principios de gobernanza</span><span class="block font-body italic text-sm text-rm-mist/70 mt-1">La regulación ya no pregunta solo por el modelo: pregunta por el sistema completo de decisión.</span></span>
+          <span class="chev flex-none text-rm-terra2 text-2xl font-light leading-none">+</span>
         </summary>
         <div class="px-5 sm:px-6 pb-6 sm:pl-[84px]">
-          <ul class="text-sm text-rm-slate space-y-2 list-disc pl-4 leading-relaxed">
+          <ul class="text-sm text-rm-mist space-y-2 list-disc pl-4 leading-relaxed">
             <li>El EU AI Act (2024): regulación por riesgo, uso, impacto y contexto; el scoring crediticio como sistema de alto riesgo.</li>
             <li>El NIST AI Risk Management Framework: gobernar, mapear, medir y gestionar — más allá del desempeño técnico.</li>
             <li>SR 11-7: desarrollo, validación, documentación, gobierno y control del riesgo de modelos.</li>
             <li>De la responsabilidad difusa a la rendición de cuentas: quién responde por la decisión.</li>
             <li>La convergencia: del control del modelo aislado a la gobernanza del sistema completo.</li>
           </ul>
-          <div class="mt-4 bg-rm-cream/70 border-l-4 border-rm-terra rounded-r-lg p-4 text-sm text-rm-slate"><strong class="text-rm-terra uppercase text-xs tracking-widest">Capstone · 20–30 min · en grupos</strong><br>Armar la matriz regulatoria de una decisión: tomar un caso real (scoring, fraude, pricing) y mapear qué le exige EU AI Act, NIST AI RMF y SR 11-7 — y qué evidencia tendría que existir hoy. Puesta en común.</div>
-          <p class="mt-3 text-xs text-rm-taupe font-medium tracking-wide">EU AI Act · NIST AI RMF · SR 11-7 · Model Risk · Accountability</p>
+          <div class="mt-5 border-l-2 border-rm-terra pl-5 py-1 text-sm text-rm-mist"><strong class="font-display text-rm-terra2 uppercase text-xs tracking-[.15em]">Capstone · 20–30 min · en grupos</strong><br>Armar la matriz regulatoria de una decisión: tomar un caso real (scoring, fraude, pricing) y mapear qué le exige EU AI Act, NIST AI RMF y SR 11-7 — y qué evidencia tendría que existir hoy. Puesta en común.</div>
+          <p class="mt-4 font-display text-[11px] text-rm-mist/50 font-semibold tracking-[.12em] uppercase">EU AI Act · NIST AI RMF · SR 11-7 · Model Risk · Accountability</p>
         </div>
       </details>
 
-      <details class="mod bg-[#fffdf8] border border-rm-line rounded-xl overflow-hidden transition">
+      <details class="mod card overflow-hidden transition">
         <summary class="flex items-center gap-4 p-5 sm:p-6">
-          <span class="flex-none w-11 h-11 rounded-xl bg-rm-ink text-rm-terra2 font-serif font-bold flex items-center justify-center">03</span>
-          <span class="flex-1"><span class="block font-serif text-lg sm:text-xl font-semibold text-rm-ink leading-snug">Data governance auditable</span><span class="block text-sm text-rm-taupe mt-0.5">Un algoritmo no se audita empezando por su fórmula. Se audita empezando por la realidad que observa.</span></span>
-          <span class="chev flex-none text-rm-terra text-2xl font-light leading-none">+</span>
+          <span class="flex-none w-11 h-11 rounded-xl bg-rm-terra/15 border border-rm-terra/40 text-rm-terra2 font-display font-bold flex items-center justify-center">03</span>
+          <span class="flex-1"><span class="block font-display text-base sm:text-lg font-bold text-rm-paper leading-snug">Data governance auditable</span><span class="block font-body italic text-sm text-rm-mist/70 mt-1">Un algoritmo no se audita empezando por su fórmula. Se audita empezando por la realidad que observa.</span></span>
+          <span class="chev flex-none text-rm-terra2 text-2xl font-light leading-none">+</span>
         </summary>
         <div class="px-5 sm:px-6 pb-6 sm:pl-[84px]">
-          <ul class="text-sm text-rm-slate space-y-2 list-disc pl-4 leading-relaxed">
+          <ul class="text-sm text-rm-mist space-y-2 list-disc pl-4 leading-relaxed">
             <li>BCBS 239: la lección de la crisis — agregación de datos de riesgo y reporteo confiable.</li>
             <li>Cuando el problema no está en el modelo, sino en el dato: incompleto, tardío, inconsistente, no trazable.</li>
             <li>Linaje de datos (data lineage) extremo a extremo: origen, transformación, uso y destino.</li>
             <li>Calidad, definición común, versionado, permisos y reglas de uso.</li>
             <li>Obligaciones de gobernanza de datos del EU AI Act para sistemas de alto riesgo.</li>
           </ul>
-          <div class="mt-4 bg-rm-cream/70 border-l-4 border-rm-terra rounded-r-lg p-4 text-sm text-rm-slate"><strong class="text-rm-terra uppercase text-xs tracking-widest">Capstone · 20–30 min · en grupos</strong><br>Llenar la ficha de data lineage (plantilla del libro, Apéndice C) para una variable crítica de un score real: de dónde nace, quién la transforma, quién la autoriza y dónde se rompe la trazabilidad. Comparación entre grupos.</div>
-          <p class="mt-3 text-xs text-rm-taupe font-medium tracking-wide">BCBS 239 · Data Lineage · Data Quality · Versionado · Trazabilidad</p>
+          <div class="mt-5 border-l-2 border-rm-terra pl-5 py-1 text-sm text-rm-mist"><strong class="font-display text-rm-terra2 uppercase text-xs tracking-[.15em]">Capstone · 20–30 min · en grupos</strong><br>Llenar la ficha de data lineage (plantilla del libro, Apéndice C) para una variable crítica de un score real: de dónde nace, quién la transforma, quién la autoriza y dónde se rompe la trazabilidad. Comparación entre grupos.</div>
+          <p class="mt-4 font-display text-[11px] text-rm-mist/50 font-semibold tracking-[.12em] uppercase">BCBS 239 · Data Lineage · Data Quality · Versionado · Trazabilidad</p>
         </div>
       </details>
 
-      <details class="mod bg-[#fffdf8] border border-rm-line rounded-xl overflow-hidden transition">
+      <details class="mod card overflow-hidden transition">
         <summary class="flex items-center gap-4 p-5 sm:p-6">
-          <span class="flex-none w-11 h-11 rounded-xl bg-rm-ink text-rm-terra2 font-serif font-bold flex items-center justify-center">04</span>
-          <span class="flex-1"><span class="block font-serif text-lg sm:text-xl font-semibold text-rm-ink leading-snug">Auditoría técnica, explainability &amp; fairness de la decisión</span><span class="block text-sm text-rm-taupe mt-0.5">Del modelo prometedor al modelo defendible: reproducir no es repetir una presentación.</span></span>
-          <span class="chev flex-none text-rm-terra text-2xl font-light leading-none">+</span>
+          <span class="flex-none w-11 h-11 rounded-xl bg-rm-terra/15 border border-rm-terra/40 text-rm-terra2 font-display font-bold flex items-center justify-center">04</span>
+          <span class="flex-1"><span class="block font-display text-base sm:text-lg font-bold text-rm-paper leading-snug">Auditoría técnica, explainability &amp; fairness de la decisión</span><span class="block font-body italic text-sm text-rm-mist/70 mt-1">Del modelo prometedor al modelo defendible: reproducir no es repetir una presentación.</span></span>
+          <span class="chev flex-none text-rm-terra2 text-2xl font-light leading-none">+</span>
         </summary>
         <div class="px-5 sm:px-6 pb-6 sm:pl-[84px]">
-          <ul class="text-sm text-rm-slate space-y-2 list-disc pl-4 leading-relaxed">
+          <ul class="text-sm text-rm-mist space-y-2 list-disc pl-4 leading-relaxed">
             <li>Reproducibilidad completa: datos, particiones, código, ambiente, semillas, parámetros y resultados.</li>
             <li>Backtesting, stress testing y análisis de sensibilidad como requisitos previos al despliegue.</li>
             <li>Drift y degradación: umbrales, alertas, responsables y protocolos de remediación.</li>
@@ -260,19 +284,19 @@ tailwind.config = {
             <li>Explainability con LIME y SHAP; el caso COMPAS y la lección de fairness para finanzas.</li>
             <li>Calidad de la decisión: comprensible, equitativa y defendible — ante el cliente, el comité y el supervisor.</li>
           </ul>
-          <div class="mt-4 bg-rm-cream/70 border-l-4 border-rm-terra rounded-r-lg p-4 text-sm text-rm-slate"><strong class="text-rm-terra uppercase text-xs tracking-widest">Capstone · 20–30 min · en grupos</strong><br>Aplicar el checklist técnico de auditoría reproducible (producto del capítulo 4) a un modelo hipotético de scoring: ¿qué bloques pasan, cuáles fallan y qué evidencia mínima falta? Cada grupo emite su dictamen.</div>
-          <p class="mt-3 text-xs text-rm-taupe font-medium tracking-wide">Reproducibilidad · Backtesting · Drift · LIME · SHAP · Fairness</p>
+          <div class="mt-5 border-l-2 border-rm-terra pl-5 py-1 text-sm text-rm-mist"><strong class="font-display text-rm-terra2 uppercase text-xs tracking-[.15em]">Capstone · 20–30 min · en grupos</strong><br>Aplicar el checklist técnico de auditoría reproducible (producto del capítulo 4) a un modelo hipotético de scoring: ¿qué bloques pasan, cuáles fallan y qué evidencia mínima falta? Cada grupo emite su dictamen.</div>
+          <p class="mt-4 font-display text-[11px] text-rm-mist/50 font-semibold tracking-[.12em] uppercase">Reproducibilidad · Backtesting · Drift · LIME · SHAP · Fairness</p>
         </div>
       </details>
 
-      <details class="mod bg-[#fffdf8] border border-rm-line rounded-xl overflow-hidden transition">
+      <details class="mod card overflow-hidden transition">
         <summary class="flex items-center gap-4 p-5 sm:p-6">
-          <span class="flex-none w-11 h-11 rounded-xl bg-rm-ink text-rm-terra2 font-serif font-bold flex items-center justify-center">05</span>
-          <span class="flex-1"><span class="block font-serif text-lg sm:text-xl font-semibold text-rm-ink leading-snug">El audit pack y la frontera: QML y riesgo post-cuántico</span><span class="block text-sm text-rm-taupe mt-0.5">Del hallazgo a la remediación — y de la promesa cuántica al programa real de reducción de riesgo.</span></span>
-          <span class="chev flex-none text-rm-terra text-2xl font-light leading-none">+</span>
+          <span class="flex-none w-11 h-11 rounded-xl bg-rm-terra/15 border border-rm-terra/40 text-rm-terra2 font-display font-bold flex items-center justify-center">05</span>
+          <span class="flex-1"><span class="block font-display text-base sm:text-lg font-bold text-rm-paper leading-snug">El audit pack y la frontera: QML y riesgo post-cuántico</span><span class="block font-body italic text-sm text-rm-mist/70 mt-1">Del hallazgo a la remediación — y de la promesa cuántica al programa real de reducción de riesgo.</span></span>
+          <span class="chev flex-none text-rm-terra2 text-2xl font-light leading-none">+</span>
         </summary>
         <div class="px-5 sm:px-6 pb-6 sm:pl-[84px]">
-          <ul class="text-sm text-rm-slate space-y-2 list-disc pl-4 leading-relaxed">
+          <ul class="text-sm text-rm-mist space-y-2 list-disc pl-4 leading-relaxed">
             <li>El audit pack como evidencia viva: ficha, documentación, validación, bitácoras, cambios y remediaciones.</li>
             <li>Del hallazgo a la remediación: responsables, plazos y seguimiento ante comités.</li>
             <li>QML, optimización cuántica (QAOA) y modelos híbridos: gobernar prototipos como experimentos de alto potencial.</li>
@@ -280,96 +304,100 @@ tailwind.config = {
             <li>«Harvest now, decrypt later»: criptografía, identidad, firmas y almacenamiento histórico.</li>
             <li>La agenda post-cuántica institucional como programa de gestión de riesgo — no como conversación futurista.</li>
           </ul>
-          <div class="mt-4 bg-rm-cream/70 border-l-4 border-rm-terra rounded-r-lg p-4 text-sm text-rm-slate"><strong class="text-rm-terra uppercase text-xs tracking-widest">Capstone final · 30 min · en grupos</strong><br>Integrar el audit pack ejecutivo de la decisión trabajada durante el curso (model card + checklist + lineage) y esbozar la agenda post-cuántica de su institución: sistemas expuestos, prioridades de migración y responsables. Presentación ejecutiva de 3 minutos por grupo.</div>
-          <p class="mt-3 text-xs text-rm-taupe font-medium tracking-wide">Audit Pack · Model Card · QML · QAOA · ML-KEM · PQC</p>
+          <div class="mt-5 border-l-2 border-rm-terra pl-5 py-1 text-sm text-rm-mist"><strong class="font-display text-rm-terra2 uppercase text-xs tracking-[.15em]">Capstone final · 30 min · en grupos</strong><br>Integrar el audit pack ejecutivo de la decisión trabajada durante el curso (model card + checklist + lineage) y esbozar la agenda post-cuántica de su institución: sistemas expuestos, prioridades de migración y responsables. Presentación ejecutiva de 3 minutos por grupo.</div>
+          <p class="mt-4 font-display text-[11px] text-rm-mist/50 font-semibold tracking-[.12em] uppercase">Audit Pack · Model Card · QML · QAOA · ML-KEM · PQC</p>
         </div>
       </details>
     </div>
 
     <!-- Tabla de entregables -->
-    <div class="mt-10 overflow-x-auto rounded-xl border border-rm-line shadow-sm">
-      <table class="min-w-full bg-[#fffdf8] text-sm text-left">
-        <thead class="bg-rm-ink text-white">
+    <div class="mt-12 overflow-x-auto rounded-xl border border-white/10">
+      <table class="min-w-full text-sm text-left" style="background:rgba(247,243,236,.03)">
+        <thead style="background:rgba(182,92,46,.18)">
           <tr>
-            <th class="py-4 px-5 font-semibold uppercase text-xs tracking-wider">Sesión</th>
-            <th class="py-4 px-5 font-semibold uppercase text-xs tracking-wider">Capstone</th>
-            <th class="py-4 px-5 font-semibold uppercase text-xs tracking-wider">Entregable</th>
-            <th class="py-4 px-5 font-semibold uppercase text-xs tracking-wider">Dinámica</th>
+            <th class="py-4 px-5 font-display font-bold uppercase text-[11px] tracking-[.15em] text-rm-paper">Sesión</th>
+            <th class="py-4 px-5 font-display font-bold uppercase text-[11px] tracking-[.15em] text-rm-paper">Capstone</th>
+            <th class="py-4 px-5 font-display font-bold uppercase text-[11px] tracking-[.15em] text-rm-paper">Entregable</th>
+            <th class="py-4 px-5 font-display font-bold uppercase text-[11px] tracking-[.15em] text-rm-paper">Dinámica</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-rm-line text-rm-slate">
-          <tr class="hover:bg-rm-cream/50 transition"><td class="py-3.5 px-5 font-bold text-rm-terra whitespace-nowrap">S1 · 20–30'</td><td class="py-3.5 px-5">Mapa de riesgos de una decisión algorítmica de la propia institución.</td><td class="py-3.5 px-5">Mapa de riesgos + asignación de responsables.</td><td class="py-3.5 px-5">Grupos + discusión ejecutiva.</td></tr>
-          <tr class="hover:bg-rm-cream/50 transition"><td class="py-3.5 px-5 font-bold text-rm-terra whitespace-nowrap">S2 · 20–30'</td><td class="py-3.5 px-5">Matriz regulatoria de una decisión real frente a EU AI Act, NIST AI RMF y SR 11-7.</td><td class="py-3.5 px-5">Matriz de obligaciones y brechas de evidencia.</td><td class="py-3.5 px-5">Grupos + puesta en común.</td></tr>
-          <tr class="hover:bg-rm-cream/50 transition"><td class="py-3.5 px-5 font-bold text-rm-terra whitespace-nowrap">S3 · 20–30'</td><td class="py-3.5 px-5">Ficha de data lineage de una variable crítica de un score (Apéndice C del libro).</td><td class="py-3.5 px-5">Linaje extremo a extremo + puntos de ruptura.</td><td class="py-3.5 px-5">Grupos + comparación cruzada.</td></tr>
-          <tr class="hover:bg-rm-cream/50 transition"><td class="py-3.5 px-5 font-bold text-rm-terra whitespace-nowrap">S4 · 20–30'</td><td class="py-3.5 px-5">Checklist técnico reproducible aplicado a un modelo de scoring (cap. 4).</td><td class="py-3.5 px-5">Dictamen de auditoría por bloques.</td><td class="py-3.5 px-5">Grupos emiten dictamen.</td></tr>
-          <tr class="hover:bg-rm-cream/50 transition"><td class="py-3.5 px-5 font-bold text-rm-terra whitespace-nowrap">S5 · 30'</td><td class="py-3.5 px-5">Audit pack ejecutivo + agenda post-cuántica institucional.</td><td class="py-3.5 px-5">Model card + checklist + lineage + agenda PQC.</td><td class="py-3.5 px-5">Presentación de 3 min por grupo.</td></tr>
+        <tbody class="divide-y divide-white/10 text-rm-mist">
+          <tr class="hover:bg-white/5 transition"><td class="py-3.5 px-5 font-display font-bold text-rm-terra2 whitespace-nowrap">S1 · 20–30'</td><td class="py-3.5 px-5">Mapa de riesgos de una decisión algorítmica de la propia institución.</td><td class="py-3.5 px-5">Mapa de riesgos + asignación de responsables.</td><td class="py-3.5 px-5">Grupos + discusión ejecutiva.</td></tr>
+          <tr class="hover:bg-white/5 transition"><td class="py-3.5 px-5 font-display font-bold text-rm-terra2 whitespace-nowrap">S2 · 20–30'</td><td class="py-3.5 px-5">Matriz regulatoria de una decisión real frente a EU AI Act, NIST AI RMF y SR 11-7.</td><td class="py-3.5 px-5">Matriz de obligaciones y brechas de evidencia.</td><td class="py-3.5 px-5">Grupos + puesta en común.</td></tr>
+          <tr class="hover:bg-white/5 transition"><td class="py-3.5 px-5 font-display font-bold text-rm-terra2 whitespace-nowrap">S3 · 20–30'</td><td class="py-3.5 px-5">Ficha de data lineage de una variable crítica de un score (Apéndice C del libro).</td><td class="py-3.5 px-5">Linaje extremo a extremo + puntos de ruptura.</td><td class="py-3.5 px-5">Grupos + comparación cruzada.</td></tr>
+          <tr class="hover:bg-white/5 transition"><td class="py-3.5 px-5 font-display font-bold text-rm-terra2 whitespace-nowrap">S4 · 20–30'</td><td class="py-3.5 px-5">Checklist técnico reproducible aplicado a un modelo de scoring (cap. 4).</td><td class="py-3.5 px-5">Dictamen de auditoría por bloques.</td><td class="py-3.5 px-5">Grupos emiten dictamen.</td></tr>
+          <tr class="hover:bg-white/5 transition"><td class="py-3.5 px-5 font-display font-bold text-rm-terra2 whitespace-nowrap">S5 · 30'</td><td class="py-3.5 px-5">Audit pack ejecutivo + agenda post-cuántica institucional.</td><td class="py-3.5 px-5">Model card + checklist + lineage + agenda PQC.</td><td class="py-3.5 px-5">Presentación de 3 min por grupo.</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <!-- ===== FACULTY ===== -->
-  <section id="faculty" class="mb-20 sm:mb-24 reveal">
-    <h2 class="text-xs font-bold text-rm-terra uppercase tracking-[.2em] mb-2">Faculty</h2>
-    <h3 class="text-3xl sm:text-4xl font-serif font-semibold text-rm-ink mb-8 border-l-4 border-rm-terra pl-4 leading-tight">Impartido por el autor del libro.</h3>
-    <div class="bg-[#fffdf8] border border-rm-line rounded-2xl p-7 sm:p-10 shadow-sm">
-      <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-1">
-        <p class="font-serif text-2xl sm:text-3xl font-bold text-rm-ink">Jorge Pérez Colín</p>
-        <p class="text-sm font-semibold text-rm-terra uppercase tracking-wider">Autor · Decision Operating System Series</p>
+  <section id="faculty" class="mb-12 reveal">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-xs font-bold text-rm-terra2 uppercase tracking-[.25em]">Faculty</h2>
+      <h3 class="font-display font-bold uppercase tracking-[.05em] text-2xl sm:text-4xl text-rm-paper mt-4 leading-tight">Impartido por el autor del libro.</h3>
+      <div class="rule"></div>
+    </div>
+    <div class="card p-7 sm:p-12 max-w-4xl mx-auto">
+      <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-2">
+        <p class="font-display text-2xl sm:text-3xl font-bold text-rm-paper">Jorge Pérez Colín</p>
+        <p class="font-display text-xs font-bold text-rm-terra2 uppercase tracking-[.15em]">Autor · Decision Operating System Series</p>
       </div>
-      <p class="text-rm-taupe font-medium mb-4">Director y cofundador de BDS · Business Data Scientists</p>
-      <div class="flex flex-wrap gap-2 mb-6 text-xs font-semibold">
-        <span class="bg-rm-cream text-rm-ink px-3 py-1.5 rounded-full">Ex-Director Analytics · Accenture México</span>
-        <span class="bg-rm-cream text-rm-ink px-3 py-1.5 rounded-full">Ex-Partner · IBM</span>
-        <span class="bg-rm-cream text-rm-ink px-3 py-1.5 rounded-full">Ex-CIO · IPADE</span>
+      <p class="font-body italic text-rm-mist/80 mb-5">Director y cofundador de BDS · Business Data Scientists</p>
+      <div class="flex flex-wrap gap-2 mb-7 font-display text-xs font-semibold">
+        <span class="border border-white/15 text-rm-mist px-3.5 py-1.5 rounded-full whitespace-nowrap">Ex-Director Analytics · Accenture México</span>
+        <span class="border border-white/15 text-rm-mist px-3.5 py-1.5 rounded-full whitespace-nowrap">Ex-Partner · IBM</span>
+        <span class="border border-white/15 text-rm-mist px-3.5 py-1.5 rounded-full whitespace-nowrap">Ex-CIO · IPADE</span>
       </div>
-      <p class="text-rm-slate leading-relaxed text-sm sm:text-base">Jorge Pérez Colín es director y cofundador de BDS · Business Data Scientists, firma especializada en inteligencia artificial, machine learning, agentes inteligentes y analítica avanzada aplicada a banca, servicios financieros y gobierno. Fue Director de Analytics para Accenture México (2015–2019) y Partner de IBM, donde encabezó el área de Cognitive Business Decision Services para IBM México. Se desempeñó como CIO del IPADE Business School, institución en la que además impartió durante trece años la materia de Entorno Económico y Tecnologías de Información. Su práctica actual se centra en transformar modelos predictivos en decisiones auditables, defendibles ante reguladores y útiles para el negocio, acompañando a consejos de administración, comités de riesgo y direcciones de tecnología en la operacionalización de AI bajo marcos de gobernanza exigentes.</p>
+      <p class="text-rm-mist leading-relaxed text-sm sm:text-base">Jorge Pérez Colín es director y cofundador de BDS · Business Data Scientists, firma especializada en inteligencia artificial, machine learning, agentes inteligentes y analítica avanzada aplicada a banca, servicios financieros y gobierno. Fue Director de Analytics para Accenture México (2015–2019) y Partner de IBM, donde encabezó el área de Cognitive Business Decision Services para IBM México. Se desempeñó como CIO del IPADE Business School, institución en la que además impartió durante trece años la materia de Entorno Económico y Tecnologías de Información. Su práctica actual se centra en transformar modelos predictivos en decisiones auditables, defendibles ante reguladores y útiles para el negocio, acompañando a consejos de administración, comités de riesgo y direcciones de tecnología en la operacionalización de AI bajo marcos de gobernanza exigentes.</p>
     </div>
   </section>
 </main>
 
 <!-- ===== FRANJA DE URGENCIA ===== -->
 <section class="text-white" style="background:linear-gradient(135deg,#b65c2e,#8f4522)">
-  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
     <div>
-      <p class="text-xs font-bold uppercase tracking-[.25em] text-orange-100 mb-2">Cupo limitado · Grupos reducidos</p>
-      <p class="font-serif text-2xl sm:text-3xl font-semibold leading-snug">Próxima Generación 2026 — gobierna las decisiones<br class="hidden sm:block"> que ya está tomando tu AI.</p>
+      <p class="font-display text-[11px] font-bold uppercase tracking-[.28em] text-orange-100 mb-3">Cupo limitado · Próxima Generación 2026</p>
+      <p class="font-display font-bold uppercase tracking-[.04em] text-xl sm:text-2xl leading-snug">Gobierna las decisiones<br class="hidden sm:block"> que ya está tomando tu AI.</p>
     </div>
-    <a href="#rm-enroll" class="flex-none inline-flex items-center justify-center font-bold text-base px-8 py-4 rounded-full bg-white text-rm-terra hover:-translate-y-0.5 transition shadow-xl">Reservar mi lugar →</a>
+    <a href="#rm-enroll" class="flex-none inline-flex items-center justify-center whitespace-nowrap font-display font-bold text-base px-9 py-4 rounded-full bg-white text-rm-terra hover:-translate-y-0.5 transition shadow-xl">Reservar mi lugar →</a>
   </div>
 </section>
 
 <!-- ===== RISKMATHICS SALES MACHINE (inyectable) ===== -->
-<section id="rm-enroll" style="background:linear-gradient(135deg,#3a4458,#16223a);color:#fff;padding:64px 20px;font-family:'Inter',Arial,sans-serif;">
+<section id="rm-enroll" style="background:linear-gradient(135deg,#0b101d,#16223a 55%,#2e2012);color:#fff;padding:72px 20px;font-family:'Lora',Georgia,serif;">
   <div style="max-width:660px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:28px;">
-      <div style="color:#d97a52;letter-spacing:3px;font-size:12px;font-weight:700;">INSCRIPCIÓN · CUPO LIMITADO</div>
-      <h2 style="font-size:34px;margin:12px 0 8px;font-weight:800;line-height:1.15;font-family:'Fraunces',Georgia,serif;">Asegura tu lugar</h2>
-      <p style="color:#c8cfdd;font-size:16px;margin:0;">Déjanos tus datos, verifica tu WhatsApp y recibe el temario completo. Sin compromiso.</p>
+      <div style="color:#d97a52;letter-spacing:4px;font-size:12px;font-weight:700;font-family:'Poppins',sans-serif;">INSCRIPCIÓN · CUPO LIMITADO</div>
+      <h2 style="font-size:32px;margin:14px 0 8px;font-weight:800;line-height:1.15;font-family:'Poppins',sans-serif;text-transform:uppercase;letter-spacing:2px;">Asegura tu lugar</h2>
+      <div style="width:50px;height:2px;background:#b65c2e;margin:14px auto 16px;"></div>
+      <p style="color:#c8cfdd;font-size:16px;margin:0;font-style:italic;">Déjanos tus datos, verifica tu WhatsApp y recibe el temario completo. Sin compromiso.</p>
     </div>
-    <div style="background:#fffdf8;color:#1f2937;border-radius:18px;padding:32px;box-shadow:0 30px 70px rgba(0,0,0,.3);">
+    <div style="background:#fffdf8;color:#1f2937;border-radius:18px;padding:32px;box-shadow:0 30px 70px rgba(0,0,0,.4);">
       <form id="rm-lead" onsubmit="return rmSubmit(event)" style="display:grid;gap:12px;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <input name="nombre" placeholder="Nombre" required style="padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;">
-          <input name="apellido" placeholder="Apellido" style="padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;">
+          <input name="nombre" placeholder="Nombre" required style="min-width:0;padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;font-family:'Lora',Georgia,serif;">
+          <input name="apellido" placeholder="Apellido" style="min-width:0;padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;font-family:'Lora',Georgia,serif;">
         </div>
-        <input type="email" name="email" placeholder="Email corporativo" required style="padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;">
+        <input type="email" name="email" placeholder="Email corporativo" required style="min-width:0;padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;font-family:'Lora',Georgia,serif;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <input name="puesto" placeholder="Puesto" style="padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;">
-          <input name="empresa" placeholder="Institución / Empresa" style="padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;">
+          <input name="puesto" placeholder="Puesto" style="min-width:0;padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;font-family:'Lora',Georgia,serif;">
+          <input name="empresa" placeholder="Institución / Empresa" style="min-width:0;padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;font-family:'Lora',Georgia,serif;">
         </div>
-        <input name="whatsapp" placeholder="WhatsApp (ej. +52...)" required style="padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;">
-        <button type="submit" style="background:linear-gradient(135deg,#d97a52,#b65c2e);color:#fff;font-weight:800;font-size:16px;border:none;padding:15px;border-radius:10px;cursor:pointer;">Quiero el temario</button>
+        <input name="whatsapp" placeholder="WhatsApp (ej. +52...)" required style="min-width:0;padding:13px 14px;border:1px solid #ddd3c2;border-radius:10px;font-size:15px;font-family:'Lora',Georgia,serif;">
+        <button type="submit" style="background:linear-gradient(135deg,#d97a52,#b65c2e);color:#fff;font-weight:800;font-size:16px;border:none;padding:15px;border-radius:10px;cursor:pointer;font-family:'Poppins',sans-serif;">Quiero el temario</button>
         <p style="font-size:12px;color:#8a94a6;margin:0;text-align:center;">🔒 Te enviamos un código por SMS para verificar. Datos protegidos.</p>
       </form>
       <div id="rm-verify" style="display:none;"></div>
       <div id="rm-thanks" style="display:none;background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;padding:20px;border-radius:14px;font-size:15px;">✅ <b>¡Listo!</b> Recibimos y verificamos tus datos. Te enviamos el temario y un asesor te contactará.</div>
       <div style="margin-top:24px;padding-top:22px;border-top:1px solid #efe8db;text-align:center;">
-        <div style="font-size:13px;color:#6b7280;letter-spacing:1px;">O INSCRÍBETE Y PAGA DIRECTO</div>
-        <div style="font-size:30px;font-weight:800;color:#16223a;margin:8px 0 4px;">MXN $<span>25,000</span> <span style="font-size:14px;color:#6b7280;font-weight:500;">+ IVA</span></div>
+        <div style="font-size:12px;color:#6b7280;letter-spacing:2px;font-family:'Poppins',sans-serif;font-weight:600;">O INSCRÍBETE Y PAGA DIRECTO</div>
+        <div style="font-size:30px;font-weight:800;color:#16223a;margin:8px 0 4px;font-family:'Poppins',sans-serif;">MXN $<span>25,000</span> <span style="font-size:14px;color:#6b7280;font-weight:500;">+ IVA</span></div>
         <div style="display:grid;gap:10px;margin-top:16px;">
-          <a id="rm-paypal" href="" target="_blank" rel="noopener" style="background:#b65c2e;color:#fff;font-weight:800;padding:14px;border-radius:10px;text-decoration:none;">Pagar con PayPal · 6 MSI</a>
-          <a id="rm-stripe" href="https://buy.stripe.com/3cIaEP6fl6uI6wxa7f2Ry2d" target="_blank" rel="noopener" style="background:#16223a;color:#fff;font-weight:700;padding:14px;border-radius:10px;text-decoration:none;">Pagar con tarjeta · Stripe</a>
+          <a id="rm-paypal" href="" target="_blank" rel="noopener" style="background:#b65c2e;color:#fff;font-weight:800;padding:14px;border-radius:10px;text-decoration:none;font-family:'Poppins',sans-serif;">Pagar con PayPal · 6 MSI</a>
+          <a id="rm-stripe" href="https://buy.stripe.com/3cIaEP6fl6uI6wxa7f2Ry2d" target="_blank" rel="noopener" style="background:#16223a;color:#fff;font-weight:700;padding:14px;border-radius:10px;text-decoration:none;font-family:'Poppins',sans-serif;">Pagar con tarjeta · Stripe</a>
         </div>
         <p style="font-size:11px;color:#9aa4b4;margin-top:12px;">100% seguro · SSL · PayPal Verified · RiskMathics Financial Institute</p>
       </div>
@@ -390,25 +418,25 @@ async function rmVerify(){var code=(document.getElementById('rm-otp').value||"")
 <!-- ===== /SALES MACHINE ===== -->
 
 <!-- ===== FOOTER ===== -->
-<footer class="bg-rm-ink text-slate-400">
-  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-12 grid sm:grid-cols-3 gap-8 text-sm">
+<footer style="background:#0b101d" class="text-rm-mist/70 border-t border-white/10">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-14 grid sm:grid-cols-3 gap-8 text-sm">
     <div>
-      <p class="font-serif font-bold text-white text-lg mb-2">RiskMathics Financial Institute</p>
-      <p class="font-light">Learn. Apply. Profit.<br>Ciudad de México</p>
+      <p class="font-display font-bold text-rm-paper uppercase tracking-[.08em] text-base mb-3">RiskMathics Financial Institute</p>
+      <p class="font-body italic">Learn. Apply. Profit.<br>Ciudad de México</p>
     </div>
     <div>
-      <p class="text-white font-semibold mb-2 uppercase text-xs tracking-widest">Registro</p>
-      <p class="font-light">growth@riskmathics.com<br>+52 55 5536 3597 ext. 2223</p>
+      <p class="font-display text-rm-paper font-bold mb-3 uppercase text-xs tracking-[.2em]">Registro</p>
+      <p>growth@riskmathics.com<br>+52 55 5536 3597 ext. 2223</p>
     </div>
     <div>
-      <p class="text-white font-semibold mb-2 uppercase text-xs tracking-widest">Programa</p>
-      <p class="font-light">Curso Ejecutivo · 5 sesiones<br>Módulo VIII · Diplomado AI &amp; Quantum Computing in Finance<br>Material base: libro · Decision Operating System Series · 2026</p>
+      <p class="font-display text-rm-paper font-bold mb-3 uppercase text-xs tracking-[.2em]">Programa</p>
+      <p>Curso Ejecutivo · 5 sesiones<br>Módulo VIII · Diplomado AI &amp; Quantum Computing in Finance<br>Material base: libro · Decision Operating System Series · 2026</p>
     </div>
   </div>
   <div class="border-t border-white/10">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 py-5 flex flex-col sm:flex-row justify-between gap-2 text-xs">
       <p>© 2026 RiskMathics Financial Institute. Todos los derechos reservados.</p>
-      <a href="https://riskmathics.com" class="hover:text-white transition">riskmathics.com</a>
+      <a href="https://riskmathics.com" class="hover:text-rm-paper transition">riskmathics.com</a>
     </div>
   </div>
 </footer>
@@ -427,22 +455,22 @@ new Chart(ctx,{
     datasets:[
       {label:'Instituciones financieras con decisiones algorítmicas en producción (%)',
        data:[22,28,35,42,50,58,66,74,81,87,91],
-       borderColor:'#16223a',backgroundColor:'rgba(22,34,58,.08)',fill:true,tension:.35,pointRadius:3,pointBackgroundColor:'#16223a'},
+       borderColor:'#c8cfdd',backgroundColor:'rgba(200,207,221,.08)',fill:true,tension:.35,pointRadius:3,pointBackgroundColor:'#c8cfdd'},
       {label:'Presión regulatoria sobre sistemas de AI (índice acumulado, 2016=10)',
        data:[10,13,17,24,31,40,52,68,84,93,100],
-       borderColor:'#b65c2e',backgroundColor:'rgba(182,92,46,.10)',fill:true,tension:.35,pointRadius:3,pointBackgroundColor:'#b65c2e'}
+       borderColor:'#d97a52',backgroundColor:'rgba(217,122,82,.12)',fill:true,tension:.35,pointRadius:3,pointBackgroundColor:'#d97a52'}
     ]
   },
   options:{
     responsive:true,maintainAspectRatio:false,
     interaction:{mode:'index',intersect:false},
     plugins:{
-      legend:{position:'bottom',labels:{font:{family:'Inter',size:11},color:'#3a4458',usePointStyle:true,boxWidth:8,padding:16}},
-      tooltip:{backgroundColor:'#16223a',titleFont:{family:'Inter'},bodyFont:{family:'Inter'},padding:12,cornerRadius:8}
+      legend:{position:'bottom',labels:{font:{family:'Poppins',size:11},color:'#c8cfdd',usePointStyle:true,boxWidth:8,padding:16}},
+      tooltip:{backgroundColor:'#16223a',titleFont:{family:'Poppins'},bodyFont:{family:'Lora'},padding:12,cornerRadius:8}
     },
     scales:{
-      y:{beginAtZero:true,max:110,grid:{color:'rgba(58,68,88,.08)'},ticks:{font:{family:'Inter',size:11},color:'#786950'}},
-      x:{grid:{display:false},ticks:{font:{family:'Inter',size:11},color:'#786950'}}
+      y:{beginAtZero:true,max:110,grid:{color:'rgba(200,207,221,.08)'},ticks:{font:{family:'Poppins',size:11},color:'#9aa4b4'}},
+      x:{grid:{display:false},ticks:{font:{family:'Poppins',size:11},color:'#9aa4b4'}}
     }
   }
 });
